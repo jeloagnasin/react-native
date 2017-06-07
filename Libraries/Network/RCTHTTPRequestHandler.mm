@@ -93,6 +93,13 @@ RCT_EXPORT_MODULE()
 
 #pragma mark - NSURLSession delegate
 
+// TODO: Use main react-native repository once we receive properly signed SSL certificate
+// !!!: This will allow self-signed certificates
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+{
+  completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
+}
+
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
    didSendBodyData:(int64_t)bytesSent
